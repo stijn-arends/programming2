@@ -3,10 +3,23 @@ import linecache
 
 class CsvConverter:
 
-    def __init__(self, file_name):
-        self.header = linecache.getline(file_name, 1).rstrip('\n').split(',')
+    def __init__(self, header):
+        self.header = header # linecache.getline(file_name, 1).rstrip('\n').split(',')
 
     def csv_to_json(self, lines):
+        """
+        Convert CSV lines into json format.
+
+        :parameters
+        -----------
+        lines - list
+            List of CSV lines
+
+        :returns
+        --------
+        json - list
+            CSV data in json format
+        """
         json = []
         for line in lines:
             assert len(line.split(',')) == len(self.header)
@@ -23,10 +36,7 @@ class CsvConverter:
 
 def main():
     file_name = "dSST.csv"
-
-    # file = open(file_name)
-    # print(file.readline().rstrip('\n').split(','))
-
+    header = linecache.getline(file_name, 1).rstrip('\n').split(',')
     content = []
     count = 0
     with open(file_name) as fh:
@@ -37,7 +47,7 @@ def main():
 
     # print(content)
 
-    csv_converter = CsvConverter(file_name)
+    csv_converter = CsvConverter(header)
     json = csv_converter.csv_to_json(content)
 
 
